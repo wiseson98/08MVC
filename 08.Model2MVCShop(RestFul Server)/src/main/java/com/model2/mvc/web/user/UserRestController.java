@@ -38,6 +38,17 @@ public class UserRestController {
 		System.out.println(this.getClass());
 	}
 	
+	@RequestMapping(value = "json/addUser", method = RequestMethod.POST)
+	public User addUser(@RequestBody User user) throws Exception{
+		
+		System.out.println("user/json/addUser : POST");
+		System.out.println("[ UserRestController ] ::" + user);
+		
+		userService.addUser(user);
+		
+		return userService.getUser(user.getUserId());
+	}
+	
 	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
 	public User getUser( @PathVariable String userId ) throws Exception{
 		
@@ -45,6 +56,27 @@ public class UserRestController {
 		
 		//Business Logic
 		return userService.getUser(userId);
+	}
+	
+	@RequestMapping(value = "json/updateUser", method = RequestMethod.POST)
+	public User updateUser(@RequestBody User user, HttpSession session) throws Exception{
+		
+		System.out.println("/user/json/updateUser : POST");
+		System.out.println("UserRestController :: " + user);
+		
+		userService.updateUser(user);
+		
+		User resultUser = userService.getUser(user.getUserId());
+		System.out.println("??? :: " + resultUser);
+		
+		if(((User)session.getAttribute("user"))!=null) {
+			String sessionId=((User)session.getAttribute("user")).getUserId();	
+			if(sessionId.equals(user.getUserId())){
+				session.setAttribute("user", resultUser);
+			}
+		}					
+		
+		return resultUser;
 	}
 
 	@RequestMapping( value="json/login", method=RequestMethod.POST )

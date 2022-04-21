@@ -39,6 +39,7 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	public void updateUser(User user) throws Exception {
+		System.out.println("updateUser dao µµÂø");
 		sqlSession.update("UserMapper.updateUser", user);
 	}
 

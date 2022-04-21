@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public void updateUser(User user) throws Exception {
+		System.out.println("updateUser serviceImpl µµÂø");
 		userDao.updateUser(user);
 	}
 

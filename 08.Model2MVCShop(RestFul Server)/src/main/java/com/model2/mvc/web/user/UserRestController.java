@@ -1,5 +1,6 @@
 package com.model2.mvc.web.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,11 @@ public class UserRestController {
 	public UserRestController(){
 		System.out.println(this.getClass());
 	}
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
 	
 	@RequestMapping(value = "json/addUser", method = RequestMethod.POST)
 	public User addUser(@RequestBody User user) throws Exception{
@@ -93,5 +99,38 @@ public class UserRestController {
 		}
 		
 		return dbUser;
+	}
+	
+	@RequestMapping(value = "json/checkDuplication", method=RequestMethod.POST)
+	public Map checkDuplication(@RequestBody User user) throws Exception{
+		
+		System.out.println("/user/json/checkDuplication : POST");		
+		System.out.println("userId :: " + user.getUserId());
+				
+		Map map = new HashMap();
+		map.put("check", userService.checkDuplication(user.getUserId()));
+				
+		return map;
+	}
+	
+	@RequestMapping(value = "json/listUser")
+	public Map listUser(@RequestBody Search search) throws Exception{
+		
+		System.out.println("user/json/listUser : GET / POST");
+		
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = userService.getUserList(search);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("resultPage :: " + resultPage);
+		
+		map.put("resultPage", resultPage);
+		map.put("search", search);
+		
+		return map;
 	}
 }

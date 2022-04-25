@@ -58,7 +58,7 @@
 	</bean>
 	
 	<bean id="uploadPath" class="java.lang.String">
-    	<constructor-arg value="c:\\Users\\homecomputer\\git\\08MVC\\08.Model2MVCShop(RestFul Server)\\src\\main\\webapp\\images\\uploadFiles\\"/>
+    	<constructor-arg value="c:\\Users\\bitcamp\\git\\08MVC\\08.Model2MVCShop(RestFul Server)\\src\\main\\webapp\\images\\uploadFiles\\"/>
  	</bean>
 	<!-- :: Spring upload -->
 	<!--	

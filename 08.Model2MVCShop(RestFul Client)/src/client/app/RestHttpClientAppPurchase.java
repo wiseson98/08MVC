@@ -127,7 +127,7 @@ public class RestHttpClientAppPurchase {
 		
 		HttpClient httpClient = new DefaultHttpClient();
 		
-		String url = "http://127.0.0.1:8080/purchase/addPurchase";
+		String url = "http://127.0.0.1:8080/purchase/json/addPurchase";
 		
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setHeader("Accept", "application/json");

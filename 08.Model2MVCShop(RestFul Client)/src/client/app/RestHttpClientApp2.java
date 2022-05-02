@@ -56,10 +56,44 @@ public class RestHttpClientApp2 {
 //		RestHttpClientApp2.listProductTest_JsonSimple();	
 		
 //		4.2 Http Post 방식 Request : codehaus lib 사용
-		RestHttpClientApp2.listProductTest_codehaus();
+//		RestHttpClientApp2.listProductTest_codehaus();
+		
+		RestHttpClientApp2.getProductNameTest_codehaus();
 
 	}	
-
+	
+	public static void getProductNameTest_codehaus() throws Exception{
+		
+		HttpClient httpClient = new DefaultHttpClient();
+		String url = "http://127.0.0.1:8080/product/json/productNameList/";
+		
+		HttpGet httpGet = new HttpGet(url);
+		httpGet.setHeader("Accept", "application/json");
+		httpGet.setHeader("Content-Type", "application/json");
+		
+		HttpResponse httpResponse = httpClient.execute(httpGet);
+		
+		System.out.println(httpResponse);
+		
+		HttpEntity httpEntity = httpResponse.getEntity();
+		InputStream in = httpEntity.getContent();
+		BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
+		
+		String serverData = br.readLine();
+		System.out.println(serverData);
+		
+		JSONObject jsonObject = (JSONObject)JSONValue.parse(serverData);
+		System.out.println(jsonObject);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<String> list = objectMapper.readValue(jsonObject.get("productNames").toString(), new TypeReference<List<String>>() {});
+		
+		for(String str : list) {
+			System.out.println(str);
+		}
+	}
+	
+	
 	public static void getProductest_JsonSimple() throws Exception{
 		
 		HttpClient httpClient = new DefaultHttpClient();

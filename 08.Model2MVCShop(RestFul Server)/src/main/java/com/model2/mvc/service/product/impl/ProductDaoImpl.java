@@ -58,4 +58,7 @@ public class ProductDaoImpl implements ProductDao {
 		sqlSession.update("ProductMapper.updateProduct", product);
 	}
 
+	public List<String> getProductNameList(String keyword) throws Exception {		
+		return sqlSession.selectList("ProductMapper.getProductNameList", keyword);
+	}
 }//end 

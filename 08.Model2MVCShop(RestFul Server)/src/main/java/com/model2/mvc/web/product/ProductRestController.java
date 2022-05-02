@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.model2.mvc.common.Category;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
@@ -109,18 +110,27 @@ public class ProductRestController {
 		
 		return map;
 	}
-
+	
 	@RequestMapping(value = "json/productNameList/{keyword}")
-	public Map<String, Object> productNameList(@PathVariable String keyword) throws Exception{
+	public List<String> productNameList(@PathVariable String keyword) throws Exception{
 		
 		System.out.println("/product/json/productNameList");
 		System.out.println("keyword : " + keyword);
 		
 		List<String> productNames = productService.getProductNameList(keyword);
 		System.out.println("productNames : " + productNames);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("productNames", productNames);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("productNames", productNames);
 		
-		return map;
+		return productNames;
+	}
+	
+	@RequestMapping(value = "json/getCategory")
+	public List<Category> getCategory() throws Exception{
+		
+		System.out.println("/product/json/getCategory");
+		
+		List<Category> category = productService.getCategory();
+		return category;
 	}
 }
